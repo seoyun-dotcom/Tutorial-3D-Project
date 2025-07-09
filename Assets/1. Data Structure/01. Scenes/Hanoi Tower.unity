@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 344702937}
   - component: {fileID: 344702936}
   - component: {fileID: 344702940}
+  - component: {fileID: 344702941}
   m_Layer: 0
   m_Name: Bar_R
   m_TagString: Untagged
@@ -243,6 +244,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barType: 2
+--- !u!65 &344702941
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344702935}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5, y: 3, z: 5}
+  m_Center: {x: 0.000000059604645, y: -0.000000059604645, z: -0.00000008940697}
 --- !u!1 &523833535
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +399,7 @@ GameObject:
   - component: {fileID: 535748769}
   - component: {fileID: 535748768}
   - component: {fileID: 535748772}
+  - component: {fileID: 535748773}
   m_Layer: 0
   m_Name: Bar_C
   m_TagString: Untagged
@@ -488,6 +511,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barType: 1
+--- !u!65 &535748773
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 535748767}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5, y: 3, z: 5}
+  m_Center: {x: 0.000000059604645, y: -0.000000059604645, z: -0.00000008940697}
 --- !u!1 &626907289
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,6 +680,7 @@ GameObject:
   - component: {fileID: 1491903752}
   - component: {fileID: 1491903751}
   - component: {fileID: 1491903755}
+  - component: {fileID: 1491903756}
   m_Layer: 0
   m_Name: Bar_L
   m_TagString: Untagged
@@ -747,6 +792,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barType: 0
+--- !u!65 &1491903756
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491903750}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5, y: 3, z: 5}
+  m_Center: {x: 0.000000059604645, y: -0.000000059604645, z: -0.00000008940697}
 --- !u!1 &2089379416
 GameObject:
   m_ObjectHideFlags: 0
