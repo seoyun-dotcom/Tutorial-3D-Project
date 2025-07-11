@@ -1,21 +1,29 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HanoiTower : MonoBehaviour
 {
     public enum HanoiLevel { Lv1 = 3, Lv2, Lv3}
-    public HanoiLevel hanoiLevel;
+    public HanoiLevel hanoiLevel = HanoiLevel.Lv1;
 
     public GameObject[] donutPrefabs;
     public BoardBar[] bars;// L, C, R
 
     public TextMeshProUGUI countTextUI;
+    public Button answerButton;
 
     public static bool isSelected;
     public static GameObject selectedDonut;
     public static BoardBar currBar;
     public static int moveCount;
+
+    private void Awake()
+    {
+        answerButton.onClick.AddListener(HanoiAnswer);
+    }
+
 
     IEnumerator Start()
     {
@@ -47,5 +55,24 @@ public class HanoiTower : MonoBehaviour
         }
 
         countTextUI.text = moveCount.ToString();
+    }
+
+    public void HanoiAnswer()
+    {
+        HanoiRoutine((int)hanoiLevel,0,1,2);
+    }
+
+    void HanoiRoutine(int n, int from, int temp, int to)
+    {
+        if (n==1)
+            Debug.Log($"{n}번 도넛을 {from}에서 {to}로 아동");
+        else
+        {
+            HanoiRoutine(n - 1, from, to, temp);
+            Debug.Log($"{n}번 도넛을 {from}에서 {to}로 아동");
+
+            HanoiRoutine(n - 1, temp, from, to);
+        }
+        
     }
 }
