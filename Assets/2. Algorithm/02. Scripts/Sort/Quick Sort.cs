@@ -2,7 +2,7 @@
 
 public class QuickSort : MonoBehaviour
 {
-    private int[] array = { 5, 8, 9, 2, 4, 5, 1, 3 };
+    private int[] array = { 5, 8, 9, 2, 4, 6, 1, 3 };
 
     private void Start()
     {
