@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class CrossBow : MonoBehaviour
 {
@@ -25,14 +26,12 @@ public class CrossBow : MonoBehaviour
 
         Debug.DrawRay(shootTf.position, shootTf.forward * 100f, Color.green);
 
-        if (isTargeting)
+        if (isTargeting && !isShoot)
         {
             //화살 생성
             //화살 위치 설정
 
-            GameObject arrow = Instantiate(arrowPrefab);
-            arrow.transform.position = shootTf.position;
-            arrow.transform.rotation = Quaternion.identity;
+            StartCoroutine(ShootRoutine());
 
         }
 
@@ -40,5 +39,23 @@ public class CrossBow : MonoBehaviour
         //{
 
         //}
+    }
+
+    IEnumerator ShootRoutine()
+    {
+        isShoot = true;
+
+        GameObject arrow = Instantiate(arrowPrefab, transform);
+        Quaternion rot = Quaternion.Euler(new Vector3(90, 0, 0));
+        arrow.transform.SetPositionAndRotation(shootTf.position, rot);
+
+        yield return new WaitForSeconds(3f);
+        isShoot = false;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(shootTf.position, shootTf.forward * 100f);
     }
 }

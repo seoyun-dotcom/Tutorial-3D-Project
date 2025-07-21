@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class SingleTon<T> : MonoBehaviour where T : Component
+public class SingleTon<T> : MonoBehaviour where T : MonoBehaviour
 {
     public static T instance;
     public static T Instance
@@ -32,7 +32,7 @@ public class SingleTon<T> : MonoBehaviour where T : Component
         if (instance == null)
         {
             instance = this as T;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
