@@ -26,6 +26,7 @@ public class EnemyFSM : MonoBehaviour
 
 
     private Vector3 originPos;
+    private Quaternion originrot;
     public float moveDistance = 20f;
 
 
@@ -37,6 +38,7 @@ public class EnemyFSM : MonoBehaviour
 
         cc = GetComponent<CharacterController>();
         originPos = transform.position;
+        transform.rotation = originrot;
         anim = transform.GetComponentInChildren<Animator>();
 
         Cursor.visible = false;
@@ -98,6 +100,7 @@ public class EnemyFSM : MonoBehaviour
         {
             currentTime = attackDelay;
             m_State = EnemyState.Attack;
+            anim.SetTrigger("MoveToAttackDelay");
             Debug.Log("상태전환: Move -> Attack");
         }
 
@@ -111,18 +114,25 @@ public class EnemyFSM : MonoBehaviour
             if(currentTime > attackDelay)
             {
                 currentTime = 0f;
-                player.GetComponent<FPSPlayerMove>().DamagedAction(attackPower);
+                anim.SetTrigger("StartAttack");
                 Debug.Log("공격");
             }
         }
-        else
+        else//공격범위 밖에있을 경우 -> Move로 전환
         {
             currentTime = 0f;
             m_State = EnemyState.Move;
+            anim.SetTrigger("AttackToMove");
             Debug.Log("상태전환: Attack -> Move");
         }
 
     }
+
+    public void AttackAction()
+    {
+        player.GetComponent<FPSPlayerMove>().DamagedAction(attackPower);
+    }
+
     void Return()
     {
         if (Vector3.Distance(transform.position, originPos) > 0.1f)//원래 위치가 아닌 경우 -> 원래 위치로 이동
@@ -134,6 +144,7 @@ public class EnemyFSM : MonoBehaviour
         else//원래 위치로 도착한 경우
         {
             transform.position = originPos;
+            transform.rotation = originrot;
             hp = 15;
             anim.SetTrigger("MoveToIdle");
             m_State = EnemyState.Idle;
@@ -150,12 +161,14 @@ public class EnemyFSM : MonoBehaviour
         hp -= hitPower;
         if (hp > 0)//공격받았는데 살았다면
         {
+            anim.SetTrigger("Damaged");
             m_State = EnemyState.Damaged;
             Debug.Log("상태전환: Any State -> Damaged");
             Damaged();
         }
         else//공격받아서 죽었다면
         {
+            anim.SetTrigger("Die");
             m_State = EnemyState.Die;
             Debug.Log("상태전환: Any State -> Die");
             Die();
@@ -169,7 +182,7 @@ public class EnemyFSM : MonoBehaviour
 
     IEnumerator DamageProcess()
     {
-        yield return new WaitForSeconds(0.5f);//피격 애니메이션만큼 대기
+        yield return new WaitForSeconds(1f);//피격 애니메이션만큼 대기
 
         m_State = EnemyState.Move;
         Debug.Log("상태전환: Damaged -> Move");
