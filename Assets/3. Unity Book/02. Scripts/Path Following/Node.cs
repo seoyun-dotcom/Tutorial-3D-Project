@@ -6,14 +6,13 @@ public class Node: IComparable<Node>
     public Node parent;
     public Vector3 pos;
 
-    public float nodeTotalCost;//G
-    public float estimateCost;//H
+    public float nodeTotalCost; // G
+    public float estimateCost; // H
 
     public bool isObstacle;
 
     public Node()
     {
-        parent = null;
         parent = null;
         nodeTotalCost = 0;
         estimateCost = 0;
@@ -28,12 +27,13 @@ public class Node: IComparable<Node>
         estimateCost = 0;
         isObstacle = false;
     }
+
     public void MarkAsObstacle()
     {
         isObstacle = true;
     }
 
-    //F = G + H
+    // F = G + H
     public float GetFCost()
     {
         return nodeTotalCost + estimateCost;
@@ -44,19 +44,15 @@ public class Node: IComparable<Node>
         float myF = GetFCost();
         float otherF = node.GetFCost();
 
-        if(myF < otherF)
-            return -1;
-        if(myF > otherF)
-            return 1;
+        if (myF < otherF) return -1;
+        if (myF > otherF) return 1;
 
-        if(estimateCost < node.estimateCost)
+        if (estimateCost < node.estimateCost)
             return -1;
         if (estimateCost > node.estimateCost)
             return 1;
 
         return 0;
-        
-
     }
 }
 
