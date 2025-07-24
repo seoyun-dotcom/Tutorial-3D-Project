@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class EnemyFSM : MonoBehaviour
@@ -11,6 +12,7 @@ public class EnemyFSM : MonoBehaviour
     private CharacterController cc;
 
     public Animator anim;
+    private NavMeshAgent smith;
 
     public float findDistance = 8f;//탐지거리
     public float attackDistance = 3f;//공격가능거리
@@ -40,9 +42,11 @@ public class EnemyFSM : MonoBehaviour
         originPos = transform.position;
         transform.rotation = originrot;
         anim = transform.GetComponentInChildren<Animator>();
+        smith = GetComponent<NavMeshAgent>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
     }
 
     private void Update()
@@ -92,9 +96,15 @@ public class EnemyFSM : MonoBehaviour
         }
         else if(Vector3.Distance(transform.position, player.position) > attackDistance)
         {
-            Vector3 dir = (player.position - transform.position).normalized;
-            cc.Move(dir * moveSpeed * Time.deltaTime);
-            transform.forward = dir;//이동방향을 정면으로 적용
+            //Vector3 dir = (player.position - transform.position).normalized;
+            //cc.Move(dir * moveSpeed * Time.deltaTime);
+            //transform.forward = dir;//이동방향을 정면으로 적용
+
+            smith.isStopped = true;
+            smith.ResetPath();
+
+            smith.stoppingDistance = attackDistance;
+            smith.SetDestination(player.position);
         }
         else
         {
@@ -137,12 +147,18 @@ public class EnemyFSM : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, originPos) > 0.1f)//원래 위치가 아닌 경우 -> 원래 위치로 이동
         {
-            Vector3 dir = (originPos - transform.position).normalized;
-            cc.Move(dir * moveSpeed * Time.deltaTime);
-            transform.forward = dir;//이동방향을 정면으로 적용
+            //Vector3 dir = (originPos - transform.position).normalized;
+            //cc.Move(dir * moveSpeed * Time.deltaTime);
+            //transform.forward = dir;//이동방향을 정면으로 적용
+
+            smith.SetDestination(originPos);
+            smith.stoppingDistance = 0f;
         }
         else//원래 위치로 도착한 경우
         {
+            smith.isStopped = true;
+            smith.ResetPath();
+
             transform.position = originPos;
             transform.rotation = originrot;
             hp = 15;
@@ -159,6 +175,10 @@ public class EnemyFSM : MonoBehaviour
 
 
         hp -= hitPower;
+
+        smith.isStopped = true;
+        smith.ResetPath();
+
         if (hp > 0)//공격받았는데 살았다면
         {
             anim.SetTrigger("Damaged");
