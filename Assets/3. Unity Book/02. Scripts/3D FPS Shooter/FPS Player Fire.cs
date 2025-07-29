@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FPSPlayerFire : MonoBehaviour
 {
+    #region 멤버변수
     private enum WeaponMode { Normal, Sniper }
     private WeaponMode wMode;
 
@@ -13,14 +14,24 @@ public class FPSPlayerFire : MonoBehaviour
     Animator anim;
     private ParticleSystem ps;
 
-    public float throwPower = 15f;
+    public GameObject weapon01;
+    public GameObject weapon02;
+
+    public GameObject crosshair01;
+    public GameObject crosshair02;
+    public GameObject crosshair02_zoom;
+
+    public GameObject weapon01_R;
+    public GameObject weapon02_R;
+
+    public float throwPower = 10f;
     public int weaponPower = 5;
 
     public TextMeshProUGUI wModeText;
     public GameObject[] eff_Flash;
 
     private bool zoomMode = false;
-
+    #endregion
 
     private void Start()
     {
@@ -34,6 +45,7 @@ public class FPSPlayerFire : MonoBehaviour
         if (FPSGameManager.Instance.gState != FPSGameManager.GameState.Run)
             return;
 
+        #region 마우스 왼쪽 클릭 -> 총발사
         if (Input.GetMouseButtonDown(0))
         {
             if (anim.GetFloat("Move Motion") == 0)
@@ -44,9 +56,9 @@ public class FPSPlayerFire : MonoBehaviour
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             RaycastHit hitInfo = new RaycastHit();
 
-            if(Physics.Raycast(ray, out hitInfo))
+            if (Physics.Raycast(ray, out hitInfo))
             {
-                if(hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))//Raycast를 Enemy가 맞은경우
+                if (hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))//Raycast를 Enemy가 맞은경우
                 {
                     EnemyFSM eFSM = hitInfo.transform.GetComponent<EnemyFSM>();
                     eFSM.HitEnemy(weaponPower);
@@ -57,11 +69,14 @@ public class FPSPlayerFire : MonoBehaviour
                     bulletEffect.transform.forward = hitInfo.normal;
 
                     ps.Play();
-                }  
+                }
             }
         }
 
-        if(Input.GetMouseButtonDown(1))
+        #endregion
+
+        #region 마우스 오른쪽 클릭 -> 일반모드-수류탄/저격모드-조준경
+        if (Input.GetMouseButtonDown(1))
         {
             switch(wMode)
             {
@@ -72,11 +87,29 @@ public class FPSPlayerFire : MonoBehaviour
                     Rigidbody rb = bomb.GetComponent<Rigidbody>();
                     rb.AddForce(Camera.main.transform.forward * throwPower, ForceMode.Impulse);
                     break;
-                case WeaponMode.Sniper:
+                case WeaponMode.Sniper://저격모드일때 마우스 오른쪽 -> 확대/축소 조준경
+                    zoomMode = !zoomMode;//현재 줌모드 상태 변경
 
-                    float fov = zoomMode ? 60f : 15f;
+                    float fov = zoomMode ? 15f : 60f;
                     Camera.main.fieldOfView = fov;
-                    zoomMode = !zoomMode;
+
+                    crosshair02_zoom.SetActive(zoomMode);
+                    crosshair02.SetActive(!zoomMode);
+
+
+                    //if (!zoomMode)
+                    //{
+                    //    crosshair02_zoom.SetActive(true);
+                    //    crosshair02.SetActive(false);
+                    //}
+                    //else
+                    //{
+                    //    crosshair02_zoom.SetActive(false);
+                    //    crosshair02.SetActive(true);
+                    //}
+
+
+
                     break;
 
                     //if (!zoomMode)
@@ -90,21 +123,46 @@ public class FPSPlayerFire : MonoBehaviour
                     //    zoomMode = false;
                     //}
             }
-        }
 
+        }
+        #endregion
+
+        #region 무기변경
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             wMode = WeaponMode.Normal;
             Camera.main.fieldOfView = 60f;
             wModeText.text = "Normal Mode";
+
+            weapon01.SetActive(true);
+            weapon02.SetActive(false);
+            crosshair01.SetActive(true);
+            crosshair02.SetActive(false);
+            crosshair02_zoom.SetActive(false);
+            weapon01_R.SetActive(true);
+            weapon02_R.SetActive(false);
+
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             wMode = WeaponMode.Sniper;
             wModeText.text = "Sniper Mode";
+
+            weapon01.SetActive(false);
+            weapon02.SetActive(true);
+            crosshair01.SetActive(false);
+            crosshair02.SetActive(true);
+            weapon01_R.SetActive(false);
+            weapon02_R.SetActive(true);
         }
+        #endregion
     }
 
+    /// <summary>
+    /// 총구 화염 이펙트
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <returns></returns>
     IEnumerator ShootEffectOn (float duration)
     {
         int num = Random.Range(0, eff_Flash.Length);
