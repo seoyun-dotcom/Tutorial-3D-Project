@@ -18,6 +18,9 @@
 *.blend1
 *.blend1.meta
 
+# 대용량 리소스 제외
+Assets/LargeAssets/
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
