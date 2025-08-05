@@ -2,9 +2,9 @@
 
 public class ExternalClass : MonoBehaviour
 {
+    public StudyDelegate studyDelegate;
     #region 간략하게 
-    //public StudyDelegate studyDelegate;
-   
+
     //private void Awake()
     //{
     //    StudyDelegate.onKeyDown += StopEvent1;
@@ -45,4 +45,12 @@ public class ExternalClass : MonoBehaviour
     //{
     //    Debug.Log("Event 1");
     //}
+    private void Start()
+    {
+        StudyAction2.action += OnLog;
+    }
+    void OnLog()
+    {
+        Debug.Log("msg");
+    }
 }

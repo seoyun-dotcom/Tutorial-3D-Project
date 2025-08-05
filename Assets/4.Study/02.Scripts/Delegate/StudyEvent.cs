@@ -6,12 +6,14 @@ public class StudyEvent : MonoBehaviour
     public event InputKeyHandler onInputKey;
     private void Start()
     {
-        onInputKey += delegate
-        {
-            Event1("Hello Unity");
-            Event2();
-            Event3();
-        };
+        onInputKey += Event1;
+
+        //onInputKey += delegate
+        //{
+        //    Event1("Hello Unity");
+        //    Event2();
+        //    Event3();
+        //};
     }
     private void Update()
     {

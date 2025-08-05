@@ -38,14 +38,19 @@ public class StudyLambda : MonoBehaviour
             ButtonEvent();
             OnLog("Lambda");
         });
+
+        mydelegate += OnLog;
+        mydelegate += (str) => OnLog(str);
+
+        mydelegate?.Invoke("Lambda");
     }
     private void ButtonEvent()
     {
         Debug.Log("Button Event");
     }
-    void OnLog(string s)
+    void OnLog(string str)
     {
-        Debug.Log(s);
+        Debug.Log(str);
     }
     /*void NoNameMethod()
     //{
