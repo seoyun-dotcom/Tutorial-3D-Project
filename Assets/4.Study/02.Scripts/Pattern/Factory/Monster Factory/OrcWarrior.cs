@@ -1,0 +1,12 @@
+﻿using Pattern.Factory;
+using System.Collections;
+using UnityEngine;
+
+public class OrcWarrior : Monster
+{
+    private void Awake()
+    {
+        Initialize("OrcWarrior", 150, 50);
+    }
+
+}

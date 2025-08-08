@@ -1,0 +1,13 @@
+﻿using UnityEngine;
+
+public class LegacyPlayer
+{
+    public void LegacyMove(float x, float y, float z)
+    {
+        Debug.Log($"Legacy Player 이동: {x}, {y}, {z}");//좌표?방향?
+    }
+    public void LegacyAttack()
+    {
+        Debug.Log($"Legacy Attack");
+    }
+}
