@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class GameFacade : SingleTon<GameFacade>
+public class GameFacade : Singleton<GameFacade>
 {
     private InventorySystem inventorySystem;
     private QuestSystem questSystem;

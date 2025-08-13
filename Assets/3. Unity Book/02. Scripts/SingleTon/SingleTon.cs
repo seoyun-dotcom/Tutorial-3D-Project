@@ -1,28 +1,27 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SingleTon<T> : MonoBehaviour where T : MonoBehaviour
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    public static T instance;
+    private static T instance;
     public static T Instance
     {
         get
         {
-            if(instance == null)
+            if (instance == null)
             {
-                var t = FindFirstObjectByType <T>();
+                var t = FindFirstObjectByType<T>();
 
-                if(t != null)
-                {
+                if (t != null)
                     instance = t;
-                }
                 else
                 {
                     var newObj = new GameObject(typeof(T).ToString());
                     newObj.AddComponent<T>();
+
                     instance = newObj.GetComponent<T>();
                 }
             }
+
             return instance;
         }
     }
@@ -32,11 +31,9 @@ public class SingleTon<T> : MonoBehaviour where T : MonoBehaviour
         if (instance == null)
         {
             instance = this as T;
-            //DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else
-        {
             Destroy(gameObject);
-        }
     }
 }

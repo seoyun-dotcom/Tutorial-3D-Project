@@ -8,14 +8,19 @@ namespace Farm
     {
         private Animator anim;
 
-        private PlayerInput playerInput;
+        //private PlayerInput playerInput;
 
         private CharacterController cc;
         private Vector3 moveInput;
 
-        private float moveSpeed = 2f;
+        private bool isRun;
+        private float currentSpeed;
+        private float walkSpeed = 2f;
+        private float runSpeed = 5f;
         private float turnSpeed = 10f;
 
+        private Vector3 velocity;
+        private const float GRAVITY = -9.8f;
         private void Start()
         {
             cc = GetComponent<CharacterController>();
@@ -23,9 +28,12 @@ namespace Farm
         }
         private void Update()
         {
-            cc.Move(moveInput * moveSpeed * Time.deltaTime);
+            velocity.y += GRAVITY * Time.deltaTime;
+            var dir = moveInput * currentSpeed + Vector3.up * velocity.y;
 
+            cc.Move(dir * Time.deltaTime);
             Turn();
+            SetAnimation();
         }
         void OnMove(InputValue value)
         {
@@ -41,6 +49,23 @@ namespace Farm
                                                       //현재회전          //목표회전             //비율(속도)
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, turnSpeed * Time.deltaTime);
             }
+        }
+        void OnRun(InputValue value)
+        {
+            isRun = value.isPressed;
+        }
+        void SetAnimation()
+        {
+            float targetValue = 0f;
+            if(moveInput != Vector3.zero)//이동 키를 누를 경우
+            {
+                targetValue = isRun ? 1f : 0.5f;
+                currentSpeed = isRun ? runSpeed : walkSpeed;
+            }
+
+            float animValue = anim.GetFloat("Move");
+            animValue = Mathf.Lerp(animValue, targetValue, 10f * Time.deltaTime);
+            anim.SetFloat("Move", animValue);
         }
     }
 

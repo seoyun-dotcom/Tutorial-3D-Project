@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class FPSGameManager : SingleTon<FPSGameManager>
+public class FPSGameManager : Singleton<FPSGameManager>
 {
     public enum GameState { Ready, Run, Pause, GameOver }
     public GameState gState;

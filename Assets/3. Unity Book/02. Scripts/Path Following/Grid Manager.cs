@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridManager : SingleTon<GridManager>
+public class GridManager : Singleton<GridManager>
 {
     public GameObject[] obstacles;
     public Node[,] nodes { get; set; }

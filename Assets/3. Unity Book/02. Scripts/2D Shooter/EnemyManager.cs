@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : SingleTon<EnemyManager>
+public class EnemyManager : Singleton<EnemyManager>
 {
     public int poolSize = 10;
 

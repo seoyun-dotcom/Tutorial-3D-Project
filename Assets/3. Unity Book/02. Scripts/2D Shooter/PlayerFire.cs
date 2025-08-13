@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerFire : SingleTon<PlayerFire>
+public class PlayerFire : Singleton<PlayerFire>
 {
     public GameObject bulletFactory;
     public GameObject firePosition;

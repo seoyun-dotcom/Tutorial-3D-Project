@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class ScoreManager : SingleTon<ScoreManager>
+public class ScoreManager : Singleton<ScoreManager>
 {
     //public static ScoreManager Instance = null;
 
