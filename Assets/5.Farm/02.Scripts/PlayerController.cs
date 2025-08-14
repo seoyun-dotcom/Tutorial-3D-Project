@@ -21,10 +21,18 @@ namespace Farm
 
         private Vector3 velocity;
         private const float GRAVITY = -9.8f;
+        private void Awake()
+        {
+            int characterIndex = LoadSceneManager.Instance.characterIndex;
+
+            transform.GetChild(characterIndex).gameObject.SetActive(true);
+            anim = transform.GetChild(characterIndex).GetComponent<Animator>();
+
+            cc = GetComponent<CharacterController>();
+        }
         private void Start()
         {
-            cc = GetComponent<CharacterController>();
-            anim = GetComponent<Animator>();
+            
         }
         private void Update()
         {
