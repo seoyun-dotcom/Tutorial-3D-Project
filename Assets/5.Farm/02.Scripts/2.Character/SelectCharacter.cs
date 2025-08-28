@@ -17,6 +17,8 @@ public class SelectCharacter : MonoBehaviour
 
     void Start()
     {
+        centerPivot.rotation = Quaternion.identity;
+
         turnButtons[0].onClick.AddListener(() => Turn(true));
         turnButtons[1].onClick.AddListener(() => Turn(false));
 
@@ -66,15 +68,17 @@ public class SelectCharacter : MonoBehaviour
 
     private void Select()
     {
-        Debug.Log($"현재 선택한 캐릭터는 {currentIndex}번째 캐릭터입니다.");
+        int len = characterAnims.Length;
+        int visibleIndex = (len - 1 - currentIndex + len) % len;
 
-        // 선택한 캐릭터 인덱스 저장
-        LoadSceneManager.Instance.SetCharacterIndex(currentIndex);
+        Debug.Log($"currentIndex: {currentIndex} → visibleIndex: {visibleIndex}");
 
-        StartCoroutine(SelectRoutine());
+        LoadSceneManager.Instance.SetCharacterIndex(visibleIndex);
+        StartCoroutine(SelectRoutine(visibleIndex));
+
     }
 
-    IEnumerator SelectRoutine()
+    IEnumerator SelectRoutine(int visibleIndex)
     {
         characterAnims[currentIndex].SetTrigger("Select");
 
@@ -82,5 +86,6 @@ public class SelectCharacter : MonoBehaviour
 
         LoadSceneManager.Instance.OnLoadScene();
     }
+
 
 }
